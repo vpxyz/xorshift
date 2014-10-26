@@ -1,0 +1,8 @@
+# ignore emacs temp file
+*~
+
+# ignore .log file
+*.log
+
+# ignore .test binary
+*.test 
