@@ -11,7 +11,7 @@ Example:
 
 var xs XorShift64
 
-xs.s = 43242434343434223
+xs.S = 43242434343434223
 
 r := xs.Next()
 
