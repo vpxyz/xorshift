@@ -18,21 +18,33 @@ r := xs.Next()
 */
 package xorshit
 
+/*
+XorShift64Star hold the state required by the XorShift64Star generators.
+*/
 type XorShift64Star struct {
 	S uint64 // The state must be seeded with a nonzero value. Require a 64-bit unsigned values.
 }
 
+/*
+XorShift128Plus holds the state required by XorShift128Plus generator.
+*/
 type XorShift128Plus struct {
 	// The state must be seeded with a nonzero value. Require 2 64-bit unsigned values. The state must be seeded so that it is not everywhere zero. If you have a 64-bit seed,  we suggest to seed a xorshift64* generator and use its output to fill S.
 	S [2]uint64
 }
 
+/*
+XorShift1024Star holds the state required by XorShift1024Star generator.
+*/
 type XorShift1024Star struct {
 	// The state must be seeded with a nonzero value. Require 16 64-bit unsigned values. The state must be seeded so that it is not everywhere zero. If you have a 64-bit seed,  we suggest to seed a xorshift64* generator and use its output to fill s .
 	S [16]uint64
 	p int
 }
 
+/*
+XorShift4096Star holds the state required by XorShift4096Star generator.
+*/
 type XorShift4096Star struct {
 	// The state must be seeded with a nonzero value. Require 64 64-bit unsigned values. The state must be seeded so that it is not everywhere zero. If you have a 64-bit seed,  we suggest to seed a xorshift64* generator and use its output to fill s .
 	S [64]uint64

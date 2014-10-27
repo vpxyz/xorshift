@@ -6,3 +6,6 @@
 
 # ignore .test binary
 *.test 
+
+# ignore profile data
+prof.out

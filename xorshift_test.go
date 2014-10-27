@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestXorshift64(t *testing.T) {
+func TestXorshift64Star(t *testing.T) {
 	xs := XorShift64Star{}
 
 	xs.S = 2343243232521
@@ -18,7 +18,7 @@ func TestXorshift64(t *testing.T) {
 
 }
 
-func TestXorshift128(t *testing.T) {
+func TestXorshift128Plus(t *testing.T) {
 	xs := XorShift128Plus{}
 
 	xs.S[0] = 43433241441424
@@ -31,7 +31,7 @@ func TestXorshift128(t *testing.T) {
 	}
 }
 
-func TestXorshift1024(t *testing.T) {
+func TestXorshift1024Star(t *testing.T) {
 	tmpxs := XorShift64Star{}
 	tmpxs.S = 2343243232521
 
@@ -49,7 +49,7 @@ func TestXorshift1024(t *testing.T) {
 	}
 }
 
-func TestXorshift4096(t *testing.T) {
+func TestXorshift4096Star(t *testing.T) {
 	tmpxs := XorShift64Star{}
 	tmpxs.S = 2343243232521
 
@@ -64,5 +64,60 @@ func TestXorshift4096(t *testing.T) {
 		r := xs.Next()
 
 		log.Printf("Iteration %v, p = %v, next4096 = %v\n", i, xs.p, r)
+	}
+}
+
+// benchmarks
+
+func BenchmarkXorShift64Star(b *testing.B) {
+	tmpxs := XorShift64Star{}
+	tmpxs.S = 2343243232521
+
+	for i := 0; i < b.N; i++ {
+		_ = tmpxs.Next()
+	}
+}
+
+func BenchmarkXorshift128Plus(b *testing.B) {
+	xs := XorShift128Plus{}
+
+	xs.S[0] = 43433241441424
+	xs.S[1] = 3243241442214
+
+	for i := 0; i < b.N; i++ {
+		_ = xs.Next()
+	}
+}
+
+func BenchmarkXorshift1024Star(b *testing.B) {
+	tmpxs := XorShift64Star{}
+	tmpxs.S = 2343243232521
+
+	xs := XorShift1024Star{}
+
+	for i := 0; i < 16; i++ {
+		xs.S[i] = tmpxs.Next()
+
+	}
+
+	for i := 0; i < b.N; i++ {
+		_ = xs.Next()
+
+	}
+}
+
+func BenchmarkXorshift4096Star(b *testing.B) {
+	tmpxs := XorShift64Star{}
+	tmpxs.S = 2343243232521
+
+	xs := XorShift4096Star{}
+
+	for i := 0; i < 64; i++ {
+		xs.S[i] = tmpxs.Next()
+
+	}
+
+	for i := 0; i < b.N; i++ {
+		_ = xs.Next()
 	}
 }
