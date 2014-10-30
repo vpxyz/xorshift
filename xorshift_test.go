@@ -121,3 +121,56 @@ func BenchmarkXorshift4096Star(b *testing.B) {
 		_ = xs.Next()
 	}
 }
+
+func BenchmarkSyncXorShift64Star(b *testing.B) {
+	tmpxs := XorShift64Star{}
+	tmpxs.S = 2343243232521
+
+	for i := 0; i < b.N; i++ {
+		_ = tmpxs.SyncNext()
+	}
+}
+
+func BenchmarkSyncXorshift128Plus(b *testing.B) {
+	xs := XorShift128Plus{}
+
+	xs.S[0] = 43433241441424
+	xs.S[1] = 3243241442214
+
+	for i := 0; i < b.N; i++ {
+		_ = xs.SyncNext()
+	}
+}
+
+func BenchmarkSyncXorshift1024Star(b *testing.B) {
+	tmpxs := XorShift64Star{}
+	tmpxs.S = 2343243232521
+
+	xs := XorShift1024Star{}
+
+	for i := 0; i < 16; i++ {
+		xs.S[i] = tmpxs.SyncNext()
+
+	}
+
+	for i := 0; i < b.N; i++ {
+		_ = xs.SyncNext()
+
+	}
+}
+
+func BenchmarkSyncXorshift4096Star(b *testing.B) {
+	tmpxs := XorShift64Star{}
+	tmpxs.S = 2343243232521
+
+	xs := XorShift4096Star{}
+
+	for i := 0; i < 64; i++ {
+		xs.S[i] = tmpxs.SyncNext()
+
+	}
+
+	for i := 0; i < b.N; i++ {
+		_ = xs.SyncNext()
+	}
+}
