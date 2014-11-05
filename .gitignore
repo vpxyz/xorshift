@@ -9,3 +9,6 @@
 
 # ignore profile data
 prof.out
+
+# ignore html 
+*.html

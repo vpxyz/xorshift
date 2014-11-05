@@ -37,7 +37,7 @@ func TestXorshift1024Star(t *testing.T) {
 
 	xs := XorShift1024Star{}
 
-	for i := 0; i < 16; i++ {
+	for i := 0; i < len(xs.S); i++ {
 		xs.S[i] = tmpxs.Next()
 
 	}
@@ -55,7 +55,7 @@ func TestXorshift4096Star(t *testing.T) {
 
 	xs := XorShift4096Star{}
 
-	for i := 0; i < 64; i++ {
+	for i := 0; i < len(xs.S); i++ {
 		xs.S[i] = tmpxs.Next()
 
 	}
@@ -95,7 +95,7 @@ func BenchmarkXorshift1024Star(b *testing.B) {
 
 	xs := XorShift1024Star{}
 
-	for i := 0; i < 16; i++ {
+	for i := 0; i < len(xs.S); i++ {
 		xs.S[i] = tmpxs.Next()
 
 	}
@@ -112,7 +112,7 @@ func BenchmarkXorshift4096Star(b *testing.B) {
 
 	xs := XorShift4096Star{}
 
-	for i := 0; i < 64; i++ {
+	for i := 0; i < len(xs.S); i++ {
 		xs.S[i] = tmpxs.Next()
 
 	}
@@ -148,7 +148,7 @@ func BenchmarkSyncXorshift1024Star(b *testing.B) {
 
 	xs := XorShift1024Star{}
 
-	for i := 0; i < 16; i++ {
+	for i := 0; i < len(xs.S); i++ {
 		xs.S[i] = tmpxs.SyncNext()
 
 	}
@@ -165,7 +165,7 @@ func BenchmarkSyncXorshift4096Star(b *testing.B) {
 
 	xs := XorShift4096Star{}
 
-	for i := 0; i < 64; i++ {
+	for i := 0; i < len(xs.S); i++ {
 		xs.S[i] = tmpxs.SyncNext()
 
 	}
