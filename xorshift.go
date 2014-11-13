@@ -24,7 +24,7 @@ import "sync"
 XorShift64Star hold the state required by the XorShift64Star generators.
 */
 type XorShift64Star struct {
-	S uint64 // The state must be seeded with a nonzero value. Require a 64-bit unsigned values.
+	S   uint64 // The state must be seeded with a nonzero value. Require a 64-bit unsigned values.
 	mux sync.RWMutex
 }
 
@@ -35,7 +35,7 @@ type XorShift128Plus struct {
 	// The state must be seeded with a nonzero value. Require 2 64-bit unsigned values.
 	// The state must be seeded so that it is not everywhere zero. If you have a 64-bit seed,
 	// we suggest to seed a xorshift64* generator and use its output to fill S.
-	S [2]uint64
+	S   [2]uint64
 	mux sync.RWMutex
 }
 
@@ -46,8 +46,8 @@ type XorShift1024Star struct {
 	// The state must be seeded with a nonzero value. Require 16 64-bit unsigned values.
 	// The state must be seeded so that it is not everywhere zero. If you have a 64-bit seed,
 	// we suggest to seed a xorshift64* generator and use its output to fill s .
-	S [16]uint64
-	p int
+	S   [16]uint64
+	p   int
 	mux sync.RWMutex
 }
 
@@ -58,8 +58,8 @@ type XorShift4096Star struct {
 	// The state must be seeded with a nonzero value. Require 64 64-bit unsigned values.
 	// The state must be seeded so that it is not everywhere zero. If you have a 64-bit seed,
 	// we suggest to seed a xorshift64* generator and use its output to fill s .
-	S [64]uint64
-	p int
+	S   [64]uint64
+	p   int
 	mux sync.RWMutex
 }
 
@@ -81,11 +81,8 @@ func (x *XorShift64Star) SyncNext() uint64 {
 	x.mux.Lock()
 	defer x.mux.Unlock()
 
-	x.S ^= x.S >> 12
-	x.S ^= x.S << 25
-	x.S ^= x.S >> 27
+	return x.Next()
 
-	return x.S * 2685821657736338717
 }
 
 /*
@@ -111,16 +108,8 @@ func (x *XorShift128Plus) SyncNext() uint64 {
 	x.mux.Lock()
 	defer x.mux.Unlock()
 
-	s1 := x.S[0]
-	s0 := x.S[1]
+	return x.Next()
 
-	s1 ^= s1 << 23
-
-	// update the state of generator
-	x.S[0] = s0
-	x.S[1] = (s1 ^ s0 ^ (s1 >> 17) ^ (s0 >> 26))
-
-	return x.S[1] + s0 // b, c
 }
 
 /*
@@ -151,21 +140,7 @@ func (x *XorShift1024Star) SyncNext() uint64 {
 	x.mux.Lock()
 	defer x.mux.Unlock()
 
-	s0 := x.S[x.p]
-
-	xpnew := (x.p + 1) & 15
-
-	s1 := x.S[xpnew]
-
-	s1 ^= s1 << 31 // a
-	s1 ^= s1 >> 11 // b
-	s0 ^= s0 >> 30 // c
-
-	// update the state of generator
-	x.S[xpnew] = (s0 ^ s1)
-	x.p = xpnew
-
-	return x.S[xpnew] * 1181783497276652981
+	return x.Next()
 }
 
 /*
@@ -194,17 +169,6 @@ func (x *XorShift4096Star) SyncNext() uint64 {
 	x.mux.Lock()
 	defer x.mux.Unlock()
 
-	xpnew := (x.p + 1) & 63
-	s0 := x.S[x.p]
-	s1 := x.S[xpnew]
+	return x.Next()
 
-	s1 ^= s1 << 25 // a
-	s1 ^= s1 >> 3  // b
-	s0 ^= s0 >> 49 // c
-
-	// update the state of generator
-	x.p = xpnew
-	x.S[xpnew] = s0 ^ s1
-
-	return x.S[xpnew] * 8372773778140471301
 }
