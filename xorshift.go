@@ -132,8 +132,8 @@ func (x *XorShift1024Star) Next() uint64 {
 	tmp := (s0 ^ s1)
 
 	// update the state of generator
-	x.p = xpnew
 	x.S[xpnew] = tmp
+	x.p = xpnew
 
 	return tmp * 1181783497276652981
 }
@@ -163,8 +163,8 @@ func (x *XorShift4096Star) Next() uint64 {
 	tmp := s0 ^ s1
 
 	// update the state of generator
-	x.p = xpnew
 	x.S[xpnew] = tmp
+	x.p = xpnew
 
 	return tmp * 8372773778140471301
 }
