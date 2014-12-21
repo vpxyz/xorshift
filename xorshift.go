@@ -67,11 +67,13 @@ type XorShift4096Star struct {
 Next returns the next pseudo random number generated, before start you must provvide one 64 unsigned bit seed.
 */
 func (x *XorShift64Star) Next() uint64 {
-	x.S ^= x.S >> 12
-	x.S ^= x.S << 25
-	x.S ^= x.S >> 27
+	s := x.S
+	s ^= s >> 12
+	s ^= s << 25
+	s ^= s >> 27
+	x.S = s
 
-	return x.S * 2685821657736338717
+	return s * 2685821657736338717
 }
 
 /*
@@ -94,11 +96,12 @@ func (x *XorShift128Plus) Next() uint64 {
 
 	s1 ^= s1 << 23
 
+	s1 = (s1 ^ s0 ^ (s1 >> 17) ^ (s0 >> 26))
 	// update the state of generator
 	x.S[0] = s0
-	x.S[1] = (s1 ^ s0 ^ (s1 >> 17) ^ (s0 >> 26))
+	x.S[1] = s1
 
-	return x.S[1] + s0 // b, c
+	return s1 + s0 // b, c
 }
 
 /*
@@ -126,11 +129,13 @@ func (x *XorShift1024Star) Next() uint64 {
 	s1 ^= s1 >> 11 // b
 	s0 ^= s0 >> 30 // c
 
-	// update the state of generator
-	x.S[xpnew] = (s0 ^ s1)
-	x.p = xpnew
+	tmp := (s0 ^ s1)
 
-	return x.S[xpnew] * 1181783497276652981
+	// update the state of generator
+	x.p = xpnew
+	x.S[xpnew] = tmp
+
+	return tmp * 1181783497276652981
 }
 
 /*
@@ -155,11 +160,13 @@ func (x *XorShift4096Star) Next() uint64 {
 	s1 ^= s1 >> 3  // b
 	s0 ^= s0 >> 49 // c
 
+	tmp := s0 ^ s1
+
 	// update the state of generator
 	x.p = xpnew
-	x.S[xpnew] = s0 ^ s1
+	x.S[xpnew] = tmp
 
-	return x.S[xpnew] * 8372773778140471301
+	return tmp * 8372773778140471301
 }
 
 /*
