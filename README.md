@@ -36,3 +36,17 @@ Ok, that's all:
     }
 
 
+## Benchmarks
+
+    BenchmarkXorShift64Star         300000000                4.68 ns/op
+    BenchmarkXorshift128Plus        300000000                4.86 ns/op
+    BenchmarkXorshift1024Star       200000000                7.03 ns/op
+    BenchmarkXorshift4096Star       200000000                7.04 ns/op
+
+    BenchmarkSyncXorShift64Star     10000000               175 ns/op
+    BenchmarkSyncXorshift128Plus    10000000               180 ns/op
+    BenchmarkSyncXorshift1024Star   10000000               184 ns/op
+    BenchmarkSyncXorshift4096Star   10000000               183 ns/op
+
+    BenchmarkRandSource             200000000                8.98 ns/op
+

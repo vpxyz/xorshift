@@ -2,13 +2,19 @@ package xorshit
 
 import (
 	"log"
+	"math/rand"
 	"testing"
+)
+
+const (
+	SEED0 = 43433241441424
+	SEED1 = 3243241442214
 )
 
 func TestXorshift64Star(t *testing.T) {
 	xs := XorShift64Star{}
 
-	xs.S = 2343243232521
+	xs.S = SEED0
 
 	for i := 0; i < 10000; i++ {
 		r := xs.Next()
@@ -21,8 +27,8 @@ func TestXorshift64Star(t *testing.T) {
 func TestXorshift128Plus(t *testing.T) {
 	xs := XorShift128Plus{}
 
-	xs.S[0] = 43433241441424
-	xs.S[1] = 3243241442214
+	xs.S[0] = SEED0
+	xs.S[1] = SEED1
 
 	for i := 0; i < 10000; i++ {
 		r := xs.Next()
@@ -33,7 +39,7 @@ func TestXorshift128Plus(t *testing.T) {
 
 func TestXorshift1024Star(t *testing.T) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = 2343243232521
+	tmpxs.S = SEED0
 
 	xs := XorShift1024Star{}
 
@@ -51,7 +57,7 @@ func TestXorshift1024Star(t *testing.T) {
 
 func TestXorshift4096Star(t *testing.T) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = 2343243232521
+	tmpxs.S = SEED0
 
 	xs := XorShift4096Star{}
 
@@ -71,7 +77,7 @@ func TestXorshift4096Star(t *testing.T) {
 
 func BenchmarkXorShift64Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = 2343243232521
+	tmpxs.S = SEED0
 
 	for i := 0; i < b.N; i++ {
 		_ = tmpxs.Next()
@@ -81,8 +87,8 @@ func BenchmarkXorShift64Star(b *testing.B) {
 func BenchmarkXorshift128Plus(b *testing.B) {
 	xs := XorShift128Plus{}
 
-	xs.S[0] = 43433241441424
-	xs.S[1] = 3243241442214
+	xs.S[0] = SEED0
+	xs.S[1] = SEED1
 
 	for i := 0; i < b.N; i++ {
 		_ = xs.Next()
@@ -91,7 +97,7 @@ func BenchmarkXorshift128Plus(b *testing.B) {
 
 func BenchmarkXorshift1024Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = 2343243232521
+	tmpxs.S = SEED0
 
 	xs := XorShift1024Star{}
 
@@ -108,7 +114,7 @@ func BenchmarkXorshift1024Star(b *testing.B) {
 
 func BenchmarkXorshift4096Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = 2343243232521
+	tmpxs.S = SEED0
 
 	xs := XorShift4096Star{}
 
@@ -124,7 +130,7 @@ func BenchmarkXorshift4096Star(b *testing.B) {
 
 func BenchmarkSyncXorShift64Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = 2343243232521
+	tmpxs.S = SEED0
 
 	for i := 0; i < b.N; i++ {
 		_ = tmpxs.SyncNext()
@@ -134,8 +140,8 @@ func BenchmarkSyncXorShift64Star(b *testing.B) {
 func BenchmarkSyncXorshift128Plus(b *testing.B) {
 	xs := XorShift128Plus{}
 
-	xs.S[0] = 43433241441424
-	xs.S[1] = 3243241442214
+	xs.S[0] = SEED0
+	xs.S[1] = SEED1
 
 	for i := 0; i < b.N; i++ {
 		_ = xs.SyncNext()
@@ -144,7 +150,7 @@ func BenchmarkSyncXorshift128Plus(b *testing.B) {
 
 func BenchmarkSyncXorshift1024Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = 2343243232521
+	tmpxs.S = SEED0
 
 	xs := XorShift1024Star{}
 
@@ -161,7 +167,7 @@ func BenchmarkSyncXorshift1024Star(b *testing.B) {
 
 func BenchmarkSyncXorshift4096Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = 2343243232521
+	tmpxs.S = SEED0
 
 	xs := XorShift4096Star{}
 
@@ -172,5 +178,12 @@ func BenchmarkSyncXorshift4096Star(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		_ = xs.SyncNext()
+	}
+}
+
+func BenchmarkRandSource(b *testing.B) {
+	s := rand.NewSource(SEED0)
+	for i := 0; i < b.N; i++ {
+		_ = s.Int63()
 	}
 }
