@@ -4,6 +4,9 @@ Xorshift is a simple library that implements xorshift* and xorshift+ pseudo rand
 
 This simple library in based on the work of Sebastiano Vigna (http://xorshift.di.unimi.it/).
 
+[![Go Walker](https://img.shields.io/badge/Go%20Walker-API%20Documentation-green.svg?style=flat)](https://gowalker.org/github.com//vpxyz/xorshift)
+[![GoDoc](https://godoc.org/github.com/vpxyz/xorshift?status.svg)](https://godoc.org/github.com/vpxyz/xorshift)
+
 ## Install
 
 This package is "go-gettable", just do:
