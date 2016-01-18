@@ -16,7 +16,7 @@ xs.S = 43242434343434223
 r := xs.Next()
 
 */
-package xorshit
+package xorshift
 
 import "sync"
 

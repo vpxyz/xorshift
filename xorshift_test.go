@@ -1,4 +1,4 @@
-package xorshit
+package xorshift
 
 import (
 	"log"
@@ -16,10 +16,11 @@ func TestXorshift64Star(t *testing.T) {
 
 	xs.S = SEED0
 
+	log.Print("Xorshift64Star:\n")
 	for i := 0; i < 10000; i++ {
 		r := xs.Next()
 
-		log.Printf("Iteration %v, next64 = %v\n", i, r)
+		log.Printf("%10d, %20d\n", i, r)
 	}
 
 }
@@ -30,10 +31,11 @@ func TestXorshift128Plus(t *testing.T) {
 	xs.S[0] = SEED0
 	xs.S[1] = SEED1
 
+	log.Print("Xorshift128Plus:\n")
 	for i := 0; i < 10000; i++ {
 		r := xs.Next()
+		log.Printf("%10d, %20d\n", i, r)
 
-		log.Printf("Iteration %v, next128 = %v\n", i, r)
 	}
 }
 
@@ -48,10 +50,11 @@ func TestXorshift1024Star(t *testing.T) {
 
 	}
 
+	log.Print("Xorshift1024Star:\n")
 	for i := 0; i < 10000; i++ {
 		r := xs.Next()
 
-		log.Printf("Iteration %v, p = %v, next1024 = %v\n", i, xs.p, r)
+		log.Printf("%10d, %20d\n", i, r)
 	}
 }
 
@@ -66,10 +69,12 @@ func TestXorshift4096Star(t *testing.T) {
 
 	}
 
+	log.Print("Xorshift4096Star:\n")
 	for i := 0; i < 10000; i++ {
 		r := xs.Next()
 
-		log.Printf("Iteration %v, p = %v, next4096 = %v\n", i, xs.p, r)
+		log.Printf("%10d, %20d\n", i, r)
+
 	}
 }
 
