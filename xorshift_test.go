@@ -14,7 +14,7 @@ const (
 func TestXorshift64Star(t *testing.T) {
 	xs := XorShift64Star{}
 
-	xs.S = SEED0
+	xs.Init(SEED0)
 
 	log.Print("Xorshift64Star:\n")
 	for i := 0; i < 10000; i++ {
@@ -28,8 +28,7 @@ func TestXorshift64Star(t *testing.T) {
 func TestXorshift128Plus(t *testing.T) {
 	xs := XorShift128Plus{}
 
-	xs.S[0] = SEED0
-	xs.S[1] = SEED1
+	xs.Init([]uint64{SEED0, SEED1})
 
 	log.Print("Xorshift128Plus:\n")
 	for i := 0; i < 10000; i++ {
@@ -41,14 +40,18 @@ func TestXorshift128Plus(t *testing.T) {
 
 func TestXorshift1024Star(t *testing.T) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = SEED0
+	tmpxs.s = SEED0
 
 	xs := XorShift1024Star{}
 
-	for i := 0; i < len(xs.S); i++ {
-		xs.S[i] = tmpxs.Next()
+	seed := make([]uint64, 16)
+
+	for i := 0; i < 16; i++ {
+		seed[i] = tmpxs.Next()
 
 	}
+
+	xs.Init(seed)
 
 	log.Print("Xorshift1024Star:\n")
 	for i := 0; i < 10000; i++ {
@@ -60,14 +63,18 @@ func TestXorshift1024Star(t *testing.T) {
 
 func TestXorshift4096Star(t *testing.T) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = SEED0
+	tmpxs.s = SEED0
 
 	xs := XorShift4096Star{}
 
-	for i := 0; i < len(xs.S); i++ {
-		xs.S[i] = tmpxs.Next()
+	seed := make([]uint64, 64)
+
+	for i := 0; i < 64; i++ {
+		seed[i] = tmpxs.Next()
 
 	}
+
+	xs.Init(seed)
 
 	log.Print("Xorshift4096Star:\n")
 	for i := 0; i < 10000; i++ {
@@ -82,7 +89,8 @@ func TestXorshift4096Star(t *testing.T) {
 
 func BenchmarkXorShift64Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = SEED0
+
+	tmpxs.Init(SEED0)
 
 	for i := 0; i < b.N; i++ {
 		_ = tmpxs.Next()
@@ -92,8 +100,7 @@ func BenchmarkXorShift64Star(b *testing.B) {
 func BenchmarkXorshift128Plus(b *testing.B) {
 	xs := XorShift128Plus{}
 
-	xs.S[0] = SEED0
-	xs.S[1] = SEED1
+	xs.Init([]uint64{SEED0, SEED1})
 
 	for i := 0; i < b.N; i++ {
 		_ = xs.Next()
@@ -102,14 +109,18 @@ func BenchmarkXorshift128Plus(b *testing.B) {
 
 func BenchmarkXorshift1024Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = SEED0
+	tmpxs.s = SEED0
 
 	xs := XorShift1024Star{}
 
-	for i := 0; i < len(xs.S); i++ {
-		xs.S[i] = tmpxs.Next()
+	seed := make([]uint64, 16)
+
+	for i := 0; i < 16; i++ {
+		seed[i] = tmpxs.Next()
 
 	}
+
+	xs.Init(seed)
 
 	for i := 0; i < b.N; i++ {
 		_ = xs.Next()
@@ -119,70 +130,21 @@ func BenchmarkXorshift1024Star(b *testing.B) {
 
 func BenchmarkXorshift4096Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
-	tmpxs.S = SEED0
+	tmpxs.s = SEED0
 
 	xs := XorShift4096Star{}
 
-	for i := 0; i < len(xs.S); i++ {
-		xs.S[i] = tmpxs.Next()
+	seed := make([]uint64, 64)
+
+	for i := 0; i < 64; i++ {
+		seed[i] = tmpxs.Next()
 
 	}
+
+	xs.Init(seed)
 
 	for i := 0; i < b.N; i++ {
 		_ = xs.Next()
-	}
-}
-
-func BenchmarkSyncXorShift64Star(b *testing.B) {
-	tmpxs := XorShift64Star{}
-	tmpxs.S = SEED0
-
-	for i := 0; i < b.N; i++ {
-		_ = tmpxs.SyncNext()
-	}
-}
-
-func BenchmarkSyncXorshift128Plus(b *testing.B) {
-	xs := XorShift128Plus{}
-
-	xs.S[0] = SEED0
-	xs.S[1] = SEED1
-
-	for i := 0; i < b.N; i++ {
-		_ = xs.SyncNext()
-	}
-}
-
-func BenchmarkSyncXorshift1024Star(b *testing.B) {
-	tmpxs := XorShift64Star{}
-	tmpxs.S = SEED0
-
-	xs := XorShift1024Star{}
-
-	for i := 0; i < len(xs.S); i++ {
-		xs.S[i] = tmpxs.SyncNext()
-
-	}
-
-	for i := 0; i < b.N; i++ {
-		_ = xs.SyncNext()
-
-	}
-}
-
-func BenchmarkSyncXorshift4096Star(b *testing.B) {
-	tmpxs := XorShift64Star{}
-	tmpxs.S = SEED0
-
-	xs := XorShift4096Star{}
-
-	for i := 0; i < len(xs.S); i++ {
-		xs.S[i] = tmpxs.SyncNext()
-
-	}
-
-	for i := 0; i < b.N; i++ {
-		_ = xs.SyncNext()
 	}
 }
 
