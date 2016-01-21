@@ -19,7 +19,7 @@ This package is "go-gettable", just do:
 Ok, that's all:
 
     import (
-       "github.com/vpxyx/xorshift"
+       "github.com/vpxyz/xorshift"
        "fmt"
     )
 
