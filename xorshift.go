@@ -132,6 +132,7 @@ func (x *XorShift1024Star) Init(seed []uint64) {
 	for i, v := range seed {
 		x.s[i] = v
 	}
+	x.p = 0
 }
 
 /*
@@ -162,4 +163,5 @@ func (x *XorShift4096Star) Init(seed []uint64) {
 	for i, v := range seed {
 		x.s[i] = v
 	}
+	x.p = 0
 }
