@@ -98,7 +98,11 @@ func (x *XorShift128Plus) Next() uint64 {
 Init returns a new XorShift128Plus source seeded with a slice of 2 values.
 */
 func (x *XorShift128Plus) Init(seed []uint64) {
-	x.s[0], x.s[1] = seed[0], seed[1]
+	if len(seed) > 1 {
+		x.s[0], x.s[1] = seed[0], seed[1]
+		return
+	}
+	x.s[0] = seed[0]
 
 }
 
@@ -130,7 +134,9 @@ Init returns a new XorShift1024Star source seeded with a slice of 16 values.
 */
 func (x *XorShift1024Star) Init(seed []uint64) {
 	for i, v := range seed {
-		x.s[i] = v
+		if i < len(x.s) {
+			x.s[i] = v
+		}
 	}
 	x.p = 0
 }
@@ -161,7 +167,9 @@ Init returns a new XorShift4096Star source seeded with a slicef of 64 values.
 */
 func (x *XorShift4096Star) Init(seed []uint64) {
 	for i, v := range seed {
-		x.s[i] = v
+		if i < len(x.s) {
+			x.s[i] = v
+		}
 	}
 	x.p = 0
 }
