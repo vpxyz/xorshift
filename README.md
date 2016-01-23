@@ -47,11 +47,8 @@ Ok, that's all:
 
 ## Benchmarks
 
-    BenchmarkXorShift64Star-8       1000000000               2.99 ns/op
-    BenchmarkXorshift128Plus-8      1000000000               2.45 ns/op
-    BenchmarkXorshift1024Star-8     500000000                3.20 ns/op
-    BenchmarkXorshift4096Star-8     1000000000               2.96 ns/op
-    BenchmarkRandSource-8           300000000                5.94 ns/op
-
-
-
+    BenchmarkXorShift64Star-8       1000000000               2.95 ns/op
+    BenchmarkXorshift128Plus-8      1000000000               2.41 ns/op
+    BenchmarkXorshift1024Star-8     1000000000               2.74 ns/op
+    BenchmarkXorshift4096Star-8     1000000000               2.91 ns/op
+    BenchmarkRandSource-8           300000000                5.83 ns/o
