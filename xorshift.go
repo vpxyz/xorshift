@@ -86,7 +86,8 @@ func (x *XorShift128Plus) Next() uint64 {
 
 	s1 ^= s1 << 23
 
-	s1 = (s1 ^ s0 ^ (s1 >> 17) ^ (s0 >> 26))
+	s1 = s1 ^ s0 ^ (s1 >> 18) ^ (s0 >> 5)
+
 	// update the state of generator
 	x.s[0] = s0
 	x.s[1] = s1
@@ -117,10 +118,7 @@ func (x *XorShift1024Star) Next() uint64 {
 	s1 := x.s[xpnew]
 
 	s1 ^= s1 << 31 // a
-	s1 ^= s1 >> 11 // b
-	s0 ^= s0 >> 30 // c
-
-	tmp := (s0 ^ s1)
+	tmp := s1 ^ s0 ^ (s1 >> 11) ^ (s0 >> 30)
 
 	// update the state of generator
 	x.s[xpnew] = tmp
