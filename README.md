@@ -18,16 +18,19 @@ This package is "go-gettable", just do:
 
 Ok, that's all:
 
+``` go
+    package main
+    
     import (
        "github.com/vpxyz/xorshift"
        "fmt"
     )
 
     func main() {
-   	   tmpxs := XorShift64Star{}
+   	   tmpxs := xorshift.XorShift64Star{}
    	   tmpxs.Init(2343243232521)
 
-       xs := XorShift4096Star{}
+       xs := xorshift.XorShift4096Star{}
 
        // you can use XorShift64Star for fill XorShift4096Star Seed
        seed := make([]uint64, 64)
@@ -43,12 +46,17 @@ Ok, that's all:
        fmt.Printf("pseudo random = %v\n", xs.Next())
        
     }
-
+```
 
 ## Benchmarks
 
+``` shellsession
+    $ go test -bench=.
+    PASS
     BenchmarkXorShift64Star-8       1000000000               2.95 ns/op
     BenchmarkXorshift128Plus-8      1000000000               2.41 ns/op
     BenchmarkXorshift1024Star-8     1000000000               2.74 ns/op
     BenchmarkXorshift4096Star-8     1000000000               2.91 ns/op
     BenchmarkRandSource-8           300000000                5.83 ns/o
+    
+```
