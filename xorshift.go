@@ -61,13 +61,12 @@ type XorShift4096Star struct {
 Next returns the next pseudo random number generated, before start you must provvide one 64 unsigned bit seed.
 */
 func (x *XorShift64Star) Next() uint64 {
-	s := x.s
-	s ^= s >> 12
-	s ^= s << 25
-	s ^= s >> 27
-	x.s = s
+	r := x.s * 2685821657736338717
+	x.s ^= x.s >> 12
+	x.s ^= x.s << 25
+	x.s ^= x.s >> 27
 
-	return s * 2685821657736338717
+	return r
 }
 
 /*
