@@ -53,10 +53,11 @@ Ok, that's all:
 ``` shellsession
     $ go test -bench=.
     PASS
-    BenchmarkXorShift64Star-8       1000000000               2.95 ns/op
-    BenchmarkXorshift128Plus-8      1000000000               2.41 ns/op
-    BenchmarkXorshift1024Star-8     1000000000               2.74 ns/op
-    BenchmarkXorshift4096Star-8     1000000000               2.91 ns/op
-    BenchmarkRandSource-8           300000000                5.83 ns/o
+    BenchmarkXorShift64Star-8       500000000                2.96 ns/op
+    BenchmarkXorShift128Plus-8      1000000000               2.42 ns/op
+    BenchmarkXoroShiro128Plus-8     1000000000               2.67 ns/op
+    BenchmarkXorShift1024Star-8     1000000000               2.51 ns/op
+    BenchmarkXorShift4096Star-8     1000000000               2.27 ns/op
+    BenchmarkRandSource-8           300000000                4.73 ns/op
     
 ```
