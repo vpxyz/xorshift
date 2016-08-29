@@ -36,6 +36,16 @@ type XorShift128Plus struct {
 }
 
 /*
+XoroShiro128Plus holds the state required by XoroShiro128Plus generator
+*/
+type XoroShiro128Plus struct {
+	// The state must be seeded with a nonzero value. Require 2 64-bit unsigned values.
+	// The state must be seeded so that it is not everywhere zero. If you have a 64-bit seed,
+	// we suggest to seed a xorshift64* generator and use its output to fill S.
+	s [2]uint64
+}
+
+/*
 XorShift1024Star holds the state required by XorShift1024Star generator.
 */
 type XorShift1024Star struct {
@@ -98,6 +108,34 @@ func (x *XorShift128Plus) Next() uint64 {
 Init returns a new XorShift128Plus source seeded with a slice of 2 values.
 */
 func (x *XorShift128Plus) Init(seed []uint64) {
+	if len(seed) > 1 {
+		x.s[0], x.s[1] = seed[0], seed[1]
+		return
+	}
+	x.s[0] = seed[0]
+
+}
+
+/*
+Next returns the next pseudo random number generated, before start you must provvide seed.
+*/
+func (x *XoroShiro128Plus) Next() uint64 {
+	s0, s1 := x.s[0], x.s[1]
+	r := s0 + s1
+
+	s1 ^= s0
+
+	// update the state of generator
+	x.s[0] = ((s0 << 55) | (s0 >> (64 - 55))) ^ s1 ^ (s1 << 14) // a,b
+	x.s[1] = ((s1 << 36) | (s1 >> (64 - 36)))
+
+	return r
+}
+
+/*
+Init returns a new XoroShiro128Plus source seeded with a slice of 2 values.
+*/
+func (x *XoroShiro128Plus) Init(seed []uint64) {
 	if len(seed) > 1 {
 		x.s[0], x.s[1] = seed[0], seed[1]
 		return
