@@ -9,6 +9,8 @@ This simple library in based on the work of Sebastiano Vigna (http://xorshift.di
 [![status](https://sourcegraph.com/api/repos/github.com/vpxyz/xorshift/.badges/status.svg)](https://sourcegraph.com/github.com/vpxyz/xorshift)
 [![Go Report Card](https://goreportcard.com/badge/github.com/vpxyz/xorshift)](https://goreportcard.com/report/github.com/vpxyz/xorshift)
 
+*NOTE*: Not concurrency-safe! You must wrap into monitor goroutine or a mutex.
+
 ## Install
 
 This package is "go-gettable", just do:
