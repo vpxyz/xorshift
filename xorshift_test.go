@@ -12,6 +12,16 @@ const (
 
 // benchmarks
 
+func BenchmarkSplitMix64(b *testing.B) {
+	tmpxs := SplitMix64{}
+
+	tmpxs.Init(SEED0)
+
+	for i := 0; i < b.N; i++ {
+		_ = tmpxs.Next()
+	}
+}
+
 func BenchmarkXorShift64Star(b *testing.B) {
 	tmpxs := XorShift64Star{}
 

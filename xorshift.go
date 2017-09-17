@@ -1,13 +1,14 @@
 /*
-Package xorshift implements a simple library for pseudo random number generators based on xorshif* and xorshift+ .
+Package xorshift implements a simple library for pseudo random number generators based on xorshif*, xorshift+ and splitmix64.
 
 xorshift* generators are obtained by scrambling the output of a Marsaglia xorshift generator with a 64-bit invertible multiplier.
 xorshift+ generators are a 64-bit version of Saito and Matsumoto's XSadd generator.
+splitmix64 generator is a fixed-increment version of Java 8's SplittableRandom generator.
 This simple library in based on the work of Sebastiano Vigna (http://xorshift.di.unimi.it/).
 
 The usage are very simple: just fill the seed with a nonzero value and call the Next() or SyncNext() function.
 
-NOTE:Not concurrency-safe! You must wrap into monitor goroutine or a mutex.
+NOTE:Not concurrency-safe! You must wrap into monitor goroutine, for e.g.
 
 Example:
 
@@ -34,7 +35,12 @@ var (
 	}
 )
 
-// XorShift64Star hold the state required by the XorShift64Star generators.
+// SplitMix64 hold the state required by the SplitMix64 generator.
+type SplitMix64 struct {
+	s uint64 // The state can be seeded with any value
+}
+
+// XorShift64Star hold the state required by the XorShift64Star generator.
 type XorShift64Star struct {
 	s uint64 // The state must be seeded with a nonzero value. Require a 64-bit unsigned values.
 }
@@ -71,6 +77,21 @@ type XorShift4096Star struct {
 	// we suggest to seed a xorshift64* generator and use its output to fill s .
 	s [64]uint64
 	p int
+}
+
+// Next returns the next pseudo random number generated, before start you must provvide one 64 unsigned bit seed.
+func (x *SplitMix64) Next() uint64 {
+	x.s = x.s + uint64(0x9E3779B97F4A7C15)
+	z := x.s
+	z = (z ^ (z >> 30)) * uint64(0xBF58476D1CE4E5B9)
+	z = (z ^ (z >> 27)) * uint64(0x94D049BB133111EB)
+	return z ^ (z >> 31)
+
+}
+
+// Init returns a new SplitMix64 source seeded with the given value.
+func (x *SplitMix64) Init(seed uint64) {
+	x.s = seed
 }
 
 // Next returns the next pseudo random number generated, before start you must provvide one 64 unsigned bit seed.

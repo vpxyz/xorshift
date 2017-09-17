@@ -1,6 +1,6 @@
 # Xorshift
 
-Xorshift is a simple library that implements xorshift* and xorshift+ pseudo random number generators in GO.
+Xorshift is a simple library that implements xorshift*, xorshift+ and splitmix64 pseudo random number generators in GO.
 
 This simple library in based on the work of Sebastiano Vigna (http://xorshift.di.unimi.it/).
 
@@ -30,12 +30,12 @@ Ok, that's all:
     )
 
     func main() {
-   	   tmpxs := xorshift.XorShift64Star{}
+   	   tmpxs := xorshift.SplitMix64{}
    	   tmpxs.Init(2343243232521)
 
        xs := xorshift.XorShift4096Star{}
 
-       // you can use XorShift64Star for fill XorShift4096Star Seed
+       // you can use SplitMix64 for fill XorShift4096Star Seed
        seed := make([]uint64, 64)
 
 	   for i := 0; i < 64; i++ {
@@ -53,14 +53,20 @@ Ok, that's all:
 
 ## Benchmarks
 
+On Fedora 26 with vanilla linux kernel 4.13.2, cpu i7-3840QM.
+
 ``` shellsession
     $ go test -bench=.
     PASS
-    BenchmarkXorShift64Star-8       500000000                2.96 ns/op
-    BenchmarkXorShift128Plus-8      1000000000               2.42 ns/op
-    BenchmarkXoroShiro128Plus-8     1000000000               2.67 ns/op
-    BenchmarkXorShift1024Star-8     1000000000               2.51 ns/op
-    BenchmarkXorShift4096Star-8     1000000000               2.27 ns/op
-    BenchmarkRandSource-8           300000000                4.73 ns/op
+    goos: linux
+    goarch: amd64
+    pkg: github.com/vpxyz/xorshift
+    BenchmarkSplitMix64-8           2000000000               1.64 ns/op
+    BenchmarkXorShift64Star-8       500000000                2.99 ns/op
+    BenchmarkXorShift128Plus-8      1000000000               2.45 ns/op
+    BenchmarkXoroShiro128Plus-8     1000000000               2.69 ns/op
+    BenchmarkXorShift1024Star-8     1000000000               2.48 ns/op
+    BenchmarkXorShift4096Star-8     1000000000               2.46 ns/op
+    BenchmarkRandSource-8           300000000                4.78 ns/op
     
 ```
