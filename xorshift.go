@@ -1,14 +1,15 @@
 /*
-Package xorshift implements a simple library for pseudo random number generators based on xorshif*, xorshift+ and splitmix64.
+Package xorshift implements a simple library for pseudo random number generators based on xorshift*, xorshift+, xoroshiro+ and splitmix64.
 
 xorshift* generators are obtained by scrambling the output of a Marsaglia xorshift generator with a 64-bit invertible multiplier.
 xorshift+ generators are a 64-bit version of Saito and Matsumoto's XSadd generator.
+xoroshiro128+ (XOR/rotate/shift/rotate) is the successor to xorshift128+.
 splitmix64 generator is a fixed-increment version of Java 8's SplittableRandom generator.
-This simple library in based on the work of Sebastiano Vigna (http://xorshift.di.unimi.it/).
+It's based on the work of Sebastiano Vigna (http://xoroshiro.di.unimi.it/).
 
 The usage are very simple: just fill the seed with a nonzero value and call the Next() or SyncNext() function.
 
-NOTE:Not concurrency-safe! You must wrap into monitor goroutine, for e.g.
+NOTE: Not concurrency-safe! You can wrap generator with a monitor goroutine, for e.g.
 
 Example:
 
@@ -70,6 +71,15 @@ type XorShift1024Star struct {
 	p int
 }
 
+// XorShift1024StarPhi holds the state required by XorShift1024StarPhi generator.
+type XorShift1024StarPhi struct {
+	// The state must be seeded with a nonzero value. Require 16 64-bit unsigned values.
+	// The state must be seeded so that it is not everywhere zero. If you have a 64-bit seed,
+	// we suggest to seed a xorshift64* generator and use its output to fill s .
+	s [16]uint64
+	p int
+}
+
 // XorShift4096Star holds the state required by XorShift4096Star generator.
 type XorShift4096Star struct {
 	// The state must be seeded with a nonzero value. Require 64 64-bit unsigned values.
@@ -118,7 +128,7 @@ func (x *XorShift128Plus) Next() uint64 {
 
 	s1 = s1 ^ s0 ^ (s1 >> 18) ^ (s0 >> 5)
 
-	// update the state of generator
+	// update the generator state
 	x.s[0] = s0
 	x.s[1] = s1
 
@@ -161,7 +171,7 @@ func (x *XoroShiro128Plus) Next() uint64 {
 
 	s1 ^= s0
 
-	// update the state of generator
+	// update the generator state
 	x.s[0] = ((s0 << 55) | (s0 >> (64 - 55))) ^ s1 ^ (s1 << 14) // a,b
 	x.s[1] = ((s1 << 36) | (s1 >> (64 - 36)))
 
@@ -199,16 +209,14 @@ func (x *XoroShiro128Plus) Init(seed []uint64) {
 
 // Next returns the next pseudo random number generated, before start you must provvide seed.
 func (x *XorShift1024Star) Next() uint64 {
-	s0 := x.s[x.p]
-
 	xpnew := (x.p + 1) & 15
-
+	s0 := x.s[x.p]
 	s1 := x.s[xpnew]
 
 	s1 ^= s1 << 31 // a
 	tmp := s1 ^ s0 ^ (s1 >> 11) ^ (s0 >> 30)
 
-	// update the state of generator
+	// update the generator state
 	x.s[xpnew] = tmp
 	x.p = xpnew
 
@@ -247,6 +255,54 @@ func (x *XorShift1024Star) Init(seed []uint64) {
 }
 
 // Next returns the next pseudo random number generated, before start you must provvide seed.
+func (x *XorShift1024StarPhi) Next() uint64 {
+	xpnew := (x.p + 1) & 15
+	s0 := x.s[x.p]
+	s1 := x.s[xpnew]
+
+	s1 ^= s1 << 31                           // a
+	tmp := s1 ^ s0 ^ (s1 >> 11) ^ (s0 >> 30) // b,c
+
+	// update the generator state
+	x.s[xpnew] = tmp
+	x.p = xpnew
+
+	return tmp * uint64(0x9e3779b97f4a7c13)
+}
+
+// Jump function for the generator. It is equivalent to 2^512 calls to next()
+func (x *XorShift1024StarPhi) Jump() {
+	var t [16]uint64
+	var b uint64
+
+	for i := 0; i < len(jump1024); i++ {
+		for b = 0; b < 64; b++ {
+			if jump1024[i]&uint64(1)<<b != 0 {
+				for j := 0; j < 16; j++ {
+					t[j] ^= x.s[(j+x.p)&15]
+				}
+			}
+			x.Next()
+		}
+	}
+
+	for j := 0; j < 16; j++ {
+		x.s[(j+x.p)&15] = t[j]
+	}
+
+}
+
+// Init returns a new XorShift1024StarPhi source seeded with a slice of 16 values.
+func (x *XorShift1024StarPhi) Init(seed []uint64) {
+	for i, v := range seed {
+		if i < len(x.s) {
+			x.s[i] = v
+		}
+	}
+	x.p = 0
+}
+
+// Next returns the next pseudo random number generated, before start you must provvide seed.
 func (x *XorShift4096Star) Next() uint64 {
 	xpnew := (x.p + 1) & 63
 	s0 := x.s[x.p]
@@ -258,14 +314,14 @@ func (x *XorShift4096Star) Next() uint64 {
 
 	tmp := s0 ^ s1
 
-	// update the state of generator
+	// update the generator state
 	x.s[xpnew] = tmp
 	x.p = xpnew
 
 	return tmp * uint64(8372773778140471301)
 }
 
-// Init returns a new XorShift4096Star source seeded with a slicef of 64 values.
+// Init returns a new XorShift4096Star source seeded with a slice of 64 values.
 func (x *XorShift4096Star) Init(seed []uint64) {
 	for i, v := range seed {
 		if i < len(x.s) {
