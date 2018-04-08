@@ -1,5 +1,5 @@
 /*
-Package xorshift4096star it's like other xorshift*, generators, but with a 4096 bit internal state.
+Package xorshift4096star it's like other xorshift*, generators, but with a 2^4096 - 1 period.
 */
 package xorshift4096star
 

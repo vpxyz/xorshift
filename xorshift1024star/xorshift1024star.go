@@ -1,5 +1,5 @@
 /*
-Package xorshift1024star it's like other xorshift*, generators, but with a 1024 bit internal state.
+Package xorshift1024star it's like other xorshift*, generators, but with a 2^1024 -1 period.
 */
 package xorshift1024star
 

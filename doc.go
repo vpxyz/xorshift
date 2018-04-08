@@ -8,7 +8,7 @@ Splitmix64 generator is a fixed-increment version of Java 8's SplittableRandom g
 
 It's based on the work of Sebastiano Vigna (http://xoroshiro.di.unimi.it/).
 
-The usage are very simple: all the generators implements rand.Source64 interface and can be used
+All the generators implements rand.Source64 interface and can be used
 as a drop-in replacement for rand.New() parameter.
 
 Some generators have a Jump() function that is equivalent to call the generator many times.

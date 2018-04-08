@@ -1,5 +1,5 @@
 /*
-Package xorshift64star it's like other xorshift*, generators, but with a 64 bit internal state.
+Package xorshift64star it's like other xorshift*, generators, but with a 2^64 - 1 period.
 */
 package xorshift64star
 
