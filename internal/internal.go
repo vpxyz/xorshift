@@ -39,3 +39,8 @@ func (x *SplitMix64) Uint64() uint64 {
 func (x *SplitMix64) Seed(seed int64) {
 	x.s = uint64(seed)
 }
+
+// Rotl rotate bits to left
+func Rotl(x uint64, k uint64) uint64 {
+	return (x << k) | (x >> (64 - k))
+}

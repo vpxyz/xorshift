@@ -56,28 +56,41 @@ This package is "go-gettable", just do:
 
 ## Benchmarks
 
-On Fedora 27 with vanilla linux kernel 4.15.15, cpu i7-3840QM.
+On Fedora 28 with vanilla linux kernel 4.16.9, cpu i7-3840QM.
 
 ``` shellsession
     $ go test -bench=.
     goos: linux
     goarch: amd64
     pkg: github.com/vpxyz/xorshift
-    BenchmarkSplitMix64Source64-8            	2000000000	         1.61 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkSplitMix64asRand64-8            	100000000	        12.6 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift64StarSource64-8        	1000000000	         2.94 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift64StarAsRand64-8        	100000000	        11.7 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift128PlusSource64-8       	1000000000	         2.41 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift128PlusAsRand64-8       	100000000	        12.3 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXoroShiro128PlusSource64-8      	1000000000	         2.65 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXoroShiro128PlusasRand64-8      	100000000	        12.2 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift1024StarSource64-8      	1000000000	         2.45 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift1024StarAsRand64-8      	100000000	        13.6 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift1024StarPhiSource64-8   	1000000000	         2.44 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift1024StarPhiasRand64-8   	100000000	        13.6 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift4096StarSource64-8      	1000000000	         2.33 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkXorShift4096StarAsRand64-8      	100000000	        13.6 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkRandSource-8                    	300000000	         5.26 ns/op	       0 B/op	       0 allocs/op
-    BenchmarkRand-8                          	100000000	        14.6 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkSplitMix64Source64-8             	2000000000	         1.60 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkSplitMix64asRand64-8             	100000000	        12.5 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift64StarSource64-8         	1000000000	         2.93 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift64StarAsRand64-8         	100000000	        11.9 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift128PlusSource64-8        	1000000000	         2.40 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift128PlusAsRand64-8        	100000000	        12.4 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro128PlusSource64-8       	1000000000	         2.71 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro128PlusAsRand64-8       	100000000	        12.0 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro128StarStarSource64-8   	500000000	         3.14 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro128StarStarAsRand64-8   	100000000	        14.3 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro256PlusSource64-8       	300000000	         4.44 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro256PlusAsRand64-8       	100000000	        15.7 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro256StarStarSource64-8   	300000000	         4.64 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro256StarStarAsRand64-8   	100000000	        15.5 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro512PlusSource64-8       	200000000	         6.61 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro512PlusAsRand64-8       	100000000	        17.0 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro512StarStarSource64-8   	200000000	         6.56 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXoroShiro512StarStarAsRand64-8   	100000000	        17.7 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift1024StarSource64-8       	1000000000	         2.42 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift1024StarAsRand64-8       	100000000	        13.7 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift1024StarPhiSource64-8    	1000000000	         2.41 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift1024StarPhiAsRand64-8    	100000000	        13.8 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift4096StarSource64-8       	1000000000	         2.31 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkXorShift4096StarAsRand64-8       	100000000	        13.6 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkRandSource-8                     	300000000	         4.89 ns/op	       0 B/op	       0 allocs/op
+    BenchmarkRand-8                           	100000000	        14.3 ns/op	       0 B/op	       0 allocs/op
+    PASS
+    ok  	github.com/vpxyz/xorshift	50.267s
+    
     
 ```

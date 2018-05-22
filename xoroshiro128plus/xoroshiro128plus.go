@@ -1,4 +1,4 @@
-// Package xoroshiro128plus (XOR/rotate/shift/rotate) is the successor to xorshift128+.
+// Package xoroshiro128plus (XOR/rotate/shift/rotate) is the successor to xorshift128+, fastest generator for floating-point numbers.
 package xoroshiro128plus
 
 import (
@@ -39,8 +39,8 @@ func (x *XoroShiro128Plus) Uint64() uint64 {
 	s1 ^= s0
 
 	// update the generator state
-	x.s[0] = ((s0 << 55) | (s0 >> (64 - 55))) ^ s1 ^ (s1 << 14) // a,b
-	x.s[1] = ((s1 << 36) | (s1 >> (64 - 36)))
+	x.s[1] = internal.Rotl(s1, 36)
+	x.s[0] = internal.Rotl(s0, 55) ^ s1 ^ (s1 << 14) // a,b
 
 	return r
 }
@@ -59,13 +59,13 @@ func (x *XoroShiro128Plus) Jump() {
 	for i := 0; i < len(internal.Jump128); i++ {
 		for b = 0; b < 64; b++ {
 			if internal.Jump128[i]&uint64(1)<<b != 0 {
-				s0 ^= x.s[0]
 				s1 ^= x.s[1]
+				s0 ^= x.s[0]
 			}
 			x.Uint64()
 		}
 	}
 
-	x.s[0] = s0
 	x.s[1] = s1
+	x.s[0] = s0
 }

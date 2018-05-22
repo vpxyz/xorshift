@@ -6,6 +6,11 @@ import (
 
 	"github.com/vpxyz/xorshift/splitmix64"
 	"github.com/vpxyz/xorshift/xoroshiro128plus"
+	"github.com/vpxyz/xorshift/xoroshiro128starstar"
+	"github.com/vpxyz/xorshift/xoroshiro256plus"
+	"github.com/vpxyz/xorshift/xoroshiro256starstar"
+	"github.com/vpxyz/xorshift/xoroshiro512plus"
+	"github.com/vpxyz/xorshift/xoroshiro512starstar"
 	"github.com/vpxyz/xorshift/xorshift1024star"
 	"github.com/vpxyz/xorshift/xorshift1024starphi"
 	"github.com/vpxyz/xorshift/xorshift128plus"
@@ -74,6 +79,7 @@ func BenchmarkXorShift128PlusAsRand64(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = r.ExpFloat64()
 	}
+
 }
 
 func BenchmarkXoroShiro128PlusSource64(b *testing.B) {
@@ -85,8 +91,108 @@ func BenchmarkXoroShiro128PlusSource64(b *testing.B) {
 	}
 }
 
-func BenchmarkXoroShiro128PlusasRand64(b *testing.B) {
+func BenchmarkXoroShiro128PlusAsRand64(b *testing.B) {
 	tmpxs := xoroshiro128plus.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	r := rand.New(tmpxs)
+
+	for i := 0; i < b.N; i++ {
+		_ = r.ExpFloat64()
+	}
+}
+
+func BenchmarkXoroShiro128StarStarSource64(b *testing.B) {
+	xs := xoroshiro128starstar.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = xs.Uint64()
+	}
+}
+
+func BenchmarkXoroShiro128StarStarAsRand64(b *testing.B) {
+	tmpxs := xoroshiro128starstar.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	r := rand.New(tmpxs)
+
+	for i := 0; i < b.N; i++ {
+		_ = r.ExpFloat64()
+	}
+}
+
+func BenchmarkXoroShiro256PlusSource64(b *testing.B) {
+	xs := xoroshiro256plus.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = xs.Uint64()
+	}
+}
+
+func BenchmarkXoroShiro256PlusAsRand64(b *testing.B) {
+	tmpxs := xoroshiro256plus.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	r := rand.New(tmpxs)
+
+	for i := 0; i < b.N; i++ {
+		_ = r.ExpFloat64()
+	}
+}
+
+func BenchmarkXoroShiro256StarStarSource64(b *testing.B) {
+	xs := xoroshiro256starstar.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = xs.Uint64()
+	}
+}
+
+func BenchmarkXoroShiro256StarStarAsRand64(b *testing.B) {
+	tmpxs := xoroshiro256starstar.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	r := rand.New(tmpxs)
+
+	for i := 0; i < b.N; i++ {
+		_ = r.ExpFloat64()
+	}
+}
+
+func BenchmarkXoroShiro512PlusSource64(b *testing.B) {
+	xs := xoroshiro512plus.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = xs.Uint64()
+	}
+}
+
+func BenchmarkXoroShiro512PlusAsRand64(b *testing.B) {
+	tmpxs := xoroshiro512plus.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	r := rand.New(tmpxs)
+
+	for i := 0; i < b.N; i++ {
+		_ = r.ExpFloat64()
+	}
+}
+
+func BenchmarkXoroShiro512StarStarSource64(b *testing.B) {
+	xs := xoroshiro512starstar.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = xs.Uint64()
+	}
+}
+
+func BenchmarkXoroShiro512StarStarAsRand64(b *testing.B) {
+	tmpxs := xoroshiro512starstar.NewSource(SEED)
 	b.ReportAllocs()
 	b.ResetTimer()
 	r := rand.New(tmpxs)
@@ -127,7 +233,7 @@ func BenchmarkXorShift1024StarPhiSource64(b *testing.B) {
 	}
 }
 
-func BenchmarkXorShift1024StarPhiasRand64(b *testing.B) {
+func BenchmarkXorShift1024StarPhiAsRand64(b *testing.B) {
 	tmpxs := xorshift1024starphi.NewSource(SEED)
 	b.ReportAllocs()
 	b.ResetTimer()
