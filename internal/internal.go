@@ -1,9 +1,10 @@
 package internal
 
 var (
-	// "const" for Jump function
+	// Jump128 "const" for Jump function
 	Jump128 = []uint64{0x8a5cd789635d2dff, 0x121fd2155c472f96}
 
+	// Jump1024 "const" for Jump function
 	Jump1024 = []uint64{
 		0x84242f96eca9c41d,
 		0xa3c65b8776f96855, 0x5b34a39f070b5837, 0x4489affce4f31a1e,
