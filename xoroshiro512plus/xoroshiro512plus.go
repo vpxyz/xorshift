@@ -36,14 +36,14 @@ func (x *XoroShiro512Plus) Uint64() uint64 {
 	// Yeah, I know that I can use an array, but the Go compiler isn't smart as gcc, the generate code are slower.
 	s0, s1, s2, s3, s4, s5, s6, s7 := x.s[0], x.s[1], x.s[2], x.s[3], x.s[4], x.s[5], x.s[6], x.s[7]
 
-	x.s[7] = internal.Rotl(s7^s3, 21)
-	x.s[6] = (s1 << 11) ^ s6 ^ s7 ^ s3
-	x.s[5] = s5 ^ s1
-	x.s[4] = s4 ^ s5 ^ s1
-	x.s[3] = s3 ^ s4
-	x.s[2] = s2 ^ s0
-	x.s[1] = s1 ^ s2 ^ s0
 	x.s[0] = s0 ^ s6
+	x.s[1] = s1 ^ s2 ^ s0
+	x.s[2] = s2 ^ s0
+	x.s[3] = s3 ^ s4
+	x.s[4] = s4 ^ s5 ^ s1
+	x.s[5] = s5 ^ s1
+	x.s[6] = (s1 << 11) ^ s6 ^ s7 ^ s3
+	x.s[7] = internal.Rotl(s7^s3, 21)
 
 	return s0 + s2
 }

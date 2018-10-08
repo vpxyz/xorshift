@@ -39,8 +39,8 @@ func (x *XoroShiro128Plus) Uint64() uint64 {
 	s1 ^= s0
 
 	// update the generator state
-	x.s[1] = internal.Rotl(s1, 36)
 	x.s[0] = internal.Rotl(s0, 55) ^ s1 ^ (s1 << 14) // a,b
+	x.s[1] = internal.Rotl(s1, 36)
 
 	return r
 }
