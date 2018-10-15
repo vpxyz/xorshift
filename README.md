@@ -37,7 +37,7 @@ This package is "go-gettable", just do:
        xs := xorshift1024star.NewSource(2343243232521)
 
        // use the generator
-       fmt.Printf("pseudo random = %v\n", xs.Uint64())
+       fmt.Printf("pseudo random number = %v\n", xs.Uint64())
        
        // some generators has a Jump function
        // for XorShift2014Star is equivalent to 2^512 calls to Uint64()
@@ -45,10 +45,10 @@ This package is "go-gettable", just do:
        
        // because every generators implements Source64 interface, 
        // you can use it as drop-in replacement for rand.New()
-       r := rand.New(tmpxs)
+       r := rand.New(xs)
 
-       for i := 0; i < b.N; i++ {
-		       _ = r.ExpFloat64()
+       for i := 0; i < 10; i++ {
+		       fmt.Printf("pseudo random number using Source64 interface = %v\n", r.ExpFloat64())
 	   }
        
     }
