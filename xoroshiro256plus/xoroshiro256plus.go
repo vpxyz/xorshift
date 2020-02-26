@@ -2,6 +2,8 @@
 package xoroshiro256plus
 
 import (
+	"math/bits"
+
 	"github.com/vpxyz/xorshift/internal"
 )
 
@@ -39,7 +41,7 @@ func (x *XoroShiro256Plus) Uint64() uint64 {
 	x.s[0] = s0 ^ s3 ^ s1
 	x.s[1] = s1 ^ s2 ^ s0
 	x.s[2] = s2 ^ s0 ^ (s1 << 17)
-	x.s[3] = internal.Rotl(s3^s1, 45)
+	x.s[3] = bits.RotateLeft64(s3^s1, 45)
 
 	return s0 + s3
 }

@@ -2,6 +2,8 @@
 package xoroshiro128starstar
 
 import (
+	"math/bits"
+
 	"github.com/vpxyz/xorshift/internal"
 )
 
@@ -34,13 +36,13 @@ func (x *XoroShiro128StarStar) Seed(seed int64) {
 // Uint64 returns the next pseudo random number generated, before start you must provvide seed.
 func (x *XoroShiro128StarStar) Uint64() uint64 {
 	s0, s1 := x.s[0], x.s[1]
-	r := internal.Rotl(s0*5, 7) * 9
+	r := bits.RotateLeft64(s0*5, 7) * 9
 
 	s1 ^= s0
 
 	// update the generator state
-	x.s[0] = internal.Rotl(s0, 24) ^ s1 ^ (s1 << 16) // a, b
-	x.s[1] = internal.Rotl(s1, 37)                   // c
+	x.s[0] = bits.RotateLeft64(s0, 24) ^ s1 ^ (s1 << 16) // a, b
+	x.s[1] = bits.RotateLeft64(s1, 37)                   // c
 
 	return r
 }

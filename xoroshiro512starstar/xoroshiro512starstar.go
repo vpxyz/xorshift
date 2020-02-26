@@ -2,6 +2,8 @@
 package xoroshiro512starstar
 
 import (
+	"math/bits"
+
 	"github.com/vpxyz/xorshift/internal"
 )
 
@@ -43,9 +45,9 @@ func (x *XoroShiro512StarStar) Uint64() uint64 {
 	x.s[4] = s4 ^ s5 ^ s1
 	x.s[5] = s5 ^ s1
 	x.s[6] = (s1 << 11) ^ s6 ^ ^s7 ^ s3
-	x.s[7] = internal.Rotl(s7^s3, 21)
+	x.s[7] = bits.RotateLeft64(s7^s3, 21)
 
-	return internal.Rotl(s1*5, 7) * 9
+	return bits.RotateLeft64(s1*5, 7) * 9
 }
 
 // Int63 returns a non-negative pseudo-random 63-bit integer as an int64.
