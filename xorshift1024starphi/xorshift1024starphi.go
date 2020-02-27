@@ -64,7 +64,7 @@ func (x *XorShift1024StarPhi) Jump() {
 
 	for i := 0; i < len(internal.Jump1024); i++ {
 		for b = 0; b < 64; b++ {
-			if internal.Jump1024[i]&uint64(1)<<b != 0 {
+			if internal.Jump1024[i]&(uint64(1)<<b) != 0 {
 				for j := 0; j < 16; j++ {
 					t[j] ^= x.s[(j+x.p)&15]
 				}

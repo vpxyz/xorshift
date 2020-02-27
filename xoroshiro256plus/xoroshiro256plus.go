@@ -58,7 +58,7 @@ func (x *XoroShiro256Plus) Jump() {
 
 	for i := 0; i < len(jump); i++ {
 		for b = 0; b < 64; b++ {
-			if jump[i]&uint64(1)<<b != 0 {
+			if jump[i]&(uint64(1)<<b) != 0 {
 				s3 ^= x.s[3]
 				s2 ^= x.s[2]
 				s1 ^= x.s[1]

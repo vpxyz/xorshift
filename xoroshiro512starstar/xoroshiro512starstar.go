@@ -63,7 +63,7 @@ func (x *XoroShiro512StarStar) Jump() {
 
 	for i := 0; i < len(jump); i++ {
 		for b = 0; b < 64; b++ {
-			if jump[i]&uint64(1)<<b != 0 {
+			if jump[i]&(uint64(1)<<b) != 0 {
 				s[7] ^= x.s[7]
 				s[6] ^= x.s[6]
 				s[5] ^= x.s[5]
