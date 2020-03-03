@@ -19,6 +19,8 @@ This package is "go-gettable", just do:
 
     go get github.com/vpxyz/xorshift...
 
+go >= 1.9 are required
+
 ## Example
 
 

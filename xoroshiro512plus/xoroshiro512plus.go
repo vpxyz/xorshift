@@ -52,8 +52,7 @@ func (x *XoroShiro512Plus) Uint64() uint64 {
 
 // Int63 returns a non-negative pseudo-random 63-bit integer as an int64.
 func (x *XoroShiro512Plus) Int63() int64 {
-	return int64(x.Uint64() & (1<<63 - 1))
-
+	return int64(x.Uint64() >> 1)
 }
 
 // Jump it is equivalent to 2^256 calls to Uint64().

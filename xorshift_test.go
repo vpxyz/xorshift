@@ -8,6 +8,7 @@ import (
 	"github.com/vpxyz/xorshift/xoroshiro128plus"
 	"github.com/vpxyz/xorshift/xoroshiro128starstar"
 	"github.com/vpxyz/xorshift/xoroshiro256plus"
+	"github.com/vpxyz/xorshift/xoroshiro256plusplus"
 	"github.com/vpxyz/xorshift/xoroshiro256starstar"
 	"github.com/vpxyz/xorshift/xoroshiro512plus"
 	"github.com/vpxyz/xorshift/xoroshiro512starstar"
@@ -133,6 +134,26 @@ func BenchmarkXoroShiro256PlusSource64(b *testing.B) {
 
 func BenchmarkXoroShiro256PlusAsRand64(b *testing.B) {
 	tmpxs := xoroshiro256plus.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	r := rand.New(tmpxs)
+
+	for i := 0; i < b.N; i++ {
+		_ = r.ExpFloat64()
+	}
+}
+
+func BenchmarkXoroShiro256PlusPlusSource64(b *testing.B) {
+	xs := xoroshiro256plusplus.NewSource(SEED)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = xs.Uint64()
+	}
+}
+
+func BenchmarkXoroShiro256PlusPlusAsRand64(b *testing.B) {
+	tmpxs := xoroshiro256plusplus.NewSource(SEED)
 	b.ReportAllocs()
 	b.ResetTimer()
 	r := rand.New(tmpxs)
