@@ -57,7 +57,7 @@ go >= 1.9 are required
 ```
 
 
-If you need to switch between different implementation or pass around the generator, you can use the interface defined in the xorshift package.
+If you need to switch between different implementation or pass around the generators, you can use the interface defined in the xorshift package.
 
 ```go
     package main
